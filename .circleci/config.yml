@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: dereference23/kernel_arm64:clang
+    steps:
+    - run:
+        name: Checkout
+        command: |
+          git clone https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git . --depth=1 --branch=$CIRCLE_BRANCH
+    - run:
+        name: Here we go!
+        command: |
+          export KBUILD_BUILD_USER=$CIRCLE_USERNAME
+          make cust_defconfig O=out CC=clang
+          make -j$(nproc --all) O=out CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
+    - run:
+        name: Pack & Upload
+        command: |
+          export ZIPNAME=positron-miatoll-$(date +%Y%m%d).zip
+          git clone https://github.com/dereference23/AnyKernel3.git --branch=miatoll --depth=1
+          cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3
+          cd AnyKernel3
+          zip -r9 $ZIPNAME * -x .git README.md *placeholder
+          curl -F chat_id=$CHAT_ID -F document=@$ZIPNAME -F parse_mode=markdown https://api.telegram.org/bot$BOT_API_TOKEN/sendDocument
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build
