@@ -166,7 +166,7 @@ static int is_low_mem(void)
 	const int lru_base = NR_LRU_BASE - LRU_BASE;
 
 	unsigned long cur_file_mem =
-			global_page_state(lru_base + LRU_ACTIVE_FILE);
+			global_zone_page_state(lru_base + LRU_ACTIVE_FILE);
 
 	unsigned long cur_swap_mem = (get_nr_swap_pages() << (PAGE_SHIFT - 10));
 	unsigned long swap_mem = free_swap_limit * 1024;
@@ -226,13 +226,13 @@ static void sort_and_kill_tasks(struct task_struct *tasks_to_kill[], int tsi)
 			}
 		}
 		task_unlock(tsk);
-
+/*
 		pr_debug("process_reclaim: total:%d[%d] comm:%s(%d) txpd:%llu KILLED!",
 				max,
 				(tsi + 1),
 				tsk->comm,
 				tsk->signal->oom_score_adj,
-				cputime_to_nsecs(tsk->acct_timexpd));
+				cputime_to_nsecs(tsk->acct_timexpd));*/
 
 		msleep(20);
 		if (tsk)
