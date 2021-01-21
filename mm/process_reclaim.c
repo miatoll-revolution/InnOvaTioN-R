@@ -146,13 +146,13 @@ static void mark_lmk_victim(struct task_struct *tsk)
  *
  * LOWMEM_NONE: No low-memory scenario detected.
  *
- * LOWMEM_NORMAL: A scenario in which the RAM and SWAP
+ * LOWMEM_NORMAL: A scenario in which the SWAP
  * memory levels are below defined thresholds.
- * (free_mem and swap_mem respectively, defined below)
+ * (swap_mem as defined below)
  *
  * LOWMEM_CRITICAL: A scenario in which the LOWMEM_NORMAL
  * condition is satisfied, as well as when the reclaimable
- * file pages (active+inactive) are below a certain threshold.
+ * file pages (active) are below a certain threshold.
  * (free_file_limit as defined above)
  */
 enum lowmem_levels {
