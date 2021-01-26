@@ -3795,8 +3795,9 @@ static int mdss_dsi_ctrl_probe(struct platform_device *pdev)
 		ctrl_pdata->shared_data->dsi0_active = true;
 	else
 		ctrl_pdata->shared_data->dsi1_active = true;
-
+#ifdef CONFIG_DEBUG_FS
 	mdss_dsi_debug_bus_init(mdss_dsi_res);
+#endif
 
 	init_completion(&ctrl_pdata->wake_comp);
 	init_waitqueue_head(&ctrl_pdata->wake_waitq);
