@@ -1191,6 +1191,7 @@ static struct i2c_driver tas2562_i2c_driver = {
 		.of_match_table = of_match_ptr(tas2562_of_match),
 #endif
 		.pm = &tas2562_pm_ops,
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
 	},
 	.probe      = tas2562_i2c_probe,
 	.remove     = tas2562_i2c_remove,
