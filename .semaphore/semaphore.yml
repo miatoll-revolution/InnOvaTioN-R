@@ -1,0 +1,32 @@
+version: v1.0
+name: Positron Builder
+agent:
+  machine:
+    type: e1-standard-2
+  containers:
+    - name: main
+      image: 'dereference23/kernel_arm64:clang'
+blocks:
+  - name: Compile
+    task:
+      jobs:
+        - name: Let's go
+          commands:
+            - checkout
+            - git submodule update --init --recursive
+            - cache restore ccache
+            - export KBUILD_BUILD_USER=dereference23
+            - make cust_defconfig O=out CC="ccache clang"
+            - make -j$(nproc --all) O=out CC="ccache clang" LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
+            - export ZIPNAME=positron-miatoll-$(date +%Y%m%d).zip
+            - 'git clone https://github.com/dereference23/AnyKernel3.git --branch=miatoll --depth=1'
+            - cp out/arch/arm64/boot/Image.gz AnyKernel3
+            - cp out/arch/arm64/boot/dtbo.img AnyKernel3
+            - cp out/arch/arm64/boot/dts/qcom/cust-atoll-ab.dtb AnyKernel3/dtb
+            - cd AnyKernel3
+            - zip -r9 $ZIPNAME * -x .git README.md *placeholder
+            - 'curl -F chat_id=$CHAT_ID -F document=@$ZIPNAME -F parse_mode=markdown https://api.telegram.org/bot$BOT_API_TOKEN/sendDocument'
+            - cache delete ccache
+            - cache store ccache $HOME/.ccache
+      secrets:
+        - name: Telegram
