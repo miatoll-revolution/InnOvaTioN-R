@@ -702,6 +702,7 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, attribute-alias)
 
 KBUILD_CFLAGS   += -march=armv8.2-a -mtune=cortex-a55 -mcpu=cortex-a55 -Wa,-mcpu=cortex-a55
 KBUILD_AFLAGS   += -Wa,-mcpu=cortex-a55
+KBUILD_AFLAGS	+= -O3
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS   += -Os
