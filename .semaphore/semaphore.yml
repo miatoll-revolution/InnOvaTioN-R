@@ -19,7 +19,7 @@ blocks:
             - make cust_defconfig O=out CC="ccache clang"
             - make -j$(nproc --all) O=out CC="ccache clang" LD=ld.lld AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
             - export ZIPNAME=positron-miatoll-$(date +%Y%m%d).zip
-            - 'git clone https://github.com/dereference23/AnyKernel3.git --branch=miatoll --depth=1'
+            - 'git clone https://github.com/dereference23/AnyKernel3.git --branch=universal --depth=1'
             - cp out/arch/arm64/boot/Image.gz AnyKernel3
             - cp out/arch/arm64/boot/dtbo.img AnyKernel3
             - cp out/arch/arm64/boot/dts/qcom/cust-atoll-ab.dtb AnyKernel3/dtb
