@@ -11,7 +11,6 @@ steps:
 - name: compile
   image: dereference23/kernel_arm64:clang
   commands:
-  - git submodule update --init --recursive
   - export KBUILD_BUILD_USER=dereference23
   - echo "CONFIG_LTO_CLANG=y" >> arch/arm64/configs/cust_defconfig
   - echo "# CONFIG_THINLTO is not set" >> arch/arm64/configs/cust_defconfig

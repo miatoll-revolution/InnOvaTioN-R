@@ -13,7 +13,6 @@ blocks:
         - name: Let's go
           commands:
             - checkout
-            - git submodule update --init --recursive
             - cache restore ccache
             - export KBUILD_BUILD_USER=dereference23
             - make cust_defconfig O=out CC="ccache clang"
